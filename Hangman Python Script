@@ -1,0 +1,60 @@
+import random
+
+
+def choose_word():
+  words = [
+      "word", "keyboard", "python", "hangman", "game", "lion",
+      "cellphone", "town", "calculator", "controller", "microwave"
+  ]
+  return random.choice(words)
+
+
+def display_progress(word, guessed_letters):
+  progress = ""
+  for letter in word:
+    if letter in guessed_letters:
+      progress += letter + " "
+    else:
+      progress += "_ "
+  return progress.strip()
+
+
+def play_game():
+  word = choose_word()
+  guessed_letters = []
+  ghiciri = 0
+  greseli = 6
+
+  print("Welcome to the Hanger!")
+  print("The word has", len(word), "letters.")
+
+  while ghiciri < greseli:
+    print("\nProgres:", display_progress(word, guessed_letters))
+    guess = input("Enter a letter: ").lower()
+
+    if len(guess) != 1 or not guess.isalpha():
+      print("Please enter only one valid letter.")
+      continue
+
+    if guess in guessed_letters:
+      print("You have already entered this letter. Please choose another one.")
+      continue
+
+    if guess in word:
+      print("Congratulations! The letter", guess, "is in the word.")
+      guessed_letters.append(guess)
+
+      if set(guessed_letters) == set(word):
+        print("Congratulations! You guessed the word:", word)
+        break
+    else:
+      print("Letter", guess, "is not in the word. Do you have more",
+            greseli - ghiciri - 1, "guesses.")
+      ghiciri += 1
+      guessed_letters.append(guess)
+
+  if ghiciri == greseli:
+    print("You lost! The word was:", word)
+
+
+play_game()
